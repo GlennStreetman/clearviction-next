@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+        - env | grep -e NEXT_REVALIDATE -e NEXT_PUBLIC_SANITY_PROJECT_ID -e NEXT_PUBLIC_SANITY_DATASET >> .env.production
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
