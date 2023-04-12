@@ -24,6 +24,10 @@ import {
 import externalLinks from "../../components/externalLinks";
 import portableTextComponents from "../../utils/portableTextComponents";
 
+import { Logger } from "aws-amplify";
+
+const logger = new Logger("foo");
+
 export default function CalculatorSlugRoute({ page, calculatorConfig }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -193,12 +197,12 @@ export default function CalculatorSlugRoute({ page, calculatorConfig }) {
 
 export async function getStaticProps(ctx) {
   const { params = {} } = ctx;
-
+  logger.info("--GENERATING PATH---", ctx, params);
   const [page, calculatorConfig] = await Promise.all([
     getCalculatorPageBySlug({ slug: params.slug }),
     getCalculatorConfig(),
   ]);
-
+  logger.info("--PAGE DETAILS---", page, calculatorConfig);
   if (!page) {
     return {
       notFound: true,
@@ -215,8 +219,9 @@ export async function getStaticProps(ctx) {
 }
 
 export async function getStaticPaths() {
+  logger.info("--GETTING STATIC PATHS---");
   const paths = await getCalculatorPagePaths();
-
+  logger.info("--PATHS RETURNED---", paths);
   return {
     paths: paths?.map((slug) => `/calculator/${slug}`) || [],
     fallback: false,
