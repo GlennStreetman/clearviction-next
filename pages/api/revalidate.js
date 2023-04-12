@@ -43,13 +43,20 @@ export default async function handler(req, res) {
   console.log("update request received");
   logger.info("update request received");
   try {
+    
     const secret = process.env.NEXT_REVALIDATE || "false";
+    logger.info("secret", secret);
+    console.log("secret", secret);
     const signature = req?.headers?.[SIGNATURE_HEADER_NAME];
+    logger.info("signature", signature);
+    console.log("signature", signature);
     const body = await readBody(req); // Read the body into a string
 
     if (!isValidSignature(body, signature, secret)) {
+      console.log("signature not valid", signature, secret);
       logger.info("signature not valid", signature, secret);
       logger.info("signature body", body);
+      console.log("signature body", body);
       res.status(401).json({ success: false, msg: "Invalid signature" }); //400 status codes tell saniti there is an error, and not to retry
       return;
     }
