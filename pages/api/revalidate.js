@@ -1,5 +1,5 @@
 import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
-import { Logger } from 'aws-amplify';
+import { Logger } from "aws-amplify";
 
 // see the links below for documentation on Sanity.io webhook docs
 // https://github.com/sanity-io/webhook-toolkit
@@ -37,7 +37,7 @@ async function readBody(readable) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-const logger = new Logger('foo');
+const logger = new Logger("foo");
 
 export default async function handler(req, res) {
   console.log("update request received");
