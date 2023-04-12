@@ -209,8 +209,8 @@ export async function getStaticProps(ctx) {
     props: {
       page,
       calculatorConfig,
-      revalidate: 10,
     },
+    revalidate: 10,
   };
 }
 
