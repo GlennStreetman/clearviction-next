@@ -1,4 +1,5 @@
 import HistoryIcon from "@mui/icons-material/History";
+import React from 'react'
 import {
   Box,
   Button,
@@ -15,17 +16,18 @@ import {
 import { PortableText } from "@portabletext/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+
 import {
   getCalculatorConfig,
   getCalculatorPageBySlug,
   getCalculatorPagePaths,
+  // @ts-ignore
 } from "utils/sanity.client";
 
 import externalLinks from "../../components/externalLinks";
 import portableTextComponents from "../../utils/portableTextComponents";
 
 import { Logger } from "aws-amplify";
-
 
 
 export default function CalculatorSlugRoute({ page, calculatorConfig }) {
@@ -71,6 +73,7 @@ export default function CalculatorSlugRoute({ page, calculatorConfig }) {
         <Box mb={4}>
           <PortableText
             value={page.content}
+            // @ts-ignore
             components={portableTextComponents}
           />
         </Box>
@@ -159,6 +162,7 @@ export default function CalculatorSlugRoute({ page, calculatorConfig }) {
         <DialogContent>
           <PortableText
             value={calculatorConfig.notSureAnswer.content}
+            // @ts-ignore
             components={portableTextComponents}
           />
         </DialogContent>
@@ -197,17 +201,19 @@ export default function CalculatorSlugRoute({ page, calculatorConfig }) {
 
 export async function getStaticProps(ctx) {
   const { params = {} } = ctx;
-  console.log("--GENERATING PATH---", ctx, params);
+  console.log('---getStaticProps---', ctx, params)
   const [page, calculatorConfig] = await Promise.all([
     getCalculatorPageBySlug({ slug: params.slug }),
     getCalculatorConfig(),
   ]);
-  console.log("--PAGE DETAILS---", page, calculatorConfig);
+  console.log('---buildStaticProps---', page, calculatorConfig)
+
   if (!page) {
     return {
       notFound: true,
     };
   }
+  console.log('---last---')
 
   return {
     props: {
@@ -219,9 +225,8 @@ export async function getStaticProps(ctx) {
 }
 
 export async function getStaticPaths() {
-  console.log("--GETTING STATIC PATHS---");
   const paths = await getCalculatorPagePaths();
-  console.log("--PATHS RETURNED---", paths);
+
   return {
     paths: paths?.map((slug) => `/calculator/${slug}`) || [],
     fallback: false,
