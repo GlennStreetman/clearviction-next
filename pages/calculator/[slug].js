@@ -210,6 +210,7 @@ export async function getStaticProps(ctx) {
       page,
       calculatorConfig,
     },
+    revalidate: 10, // In seconds
   };
 }
 
