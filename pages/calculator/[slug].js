@@ -1,4 +1,3 @@
-
 import HistoryIcon from "@mui/icons-material/History";
 import {
   Box,
@@ -210,7 +209,7 @@ export async function getStaticProps(ctx) {
     props: {
       page,
       calculatorConfig,
-      revalidate: 60, 
+      revalidate: 10,
     },
   };
 }
