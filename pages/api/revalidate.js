@@ -48,6 +48,8 @@ export default async function handler(req, res) {
     const body = await readBody(req); // Read the body into a string
 
     if (!isValidSignature(body, signature, secret)) {
+      logger.info("signature not valid", signature, secret);
+      logger.info("signature body", body);
       res.status(401).json({ success: false, msg: "Invalid signature" }); //400 status codes tell saniti there is an error, and not to retry
       return;
     }
