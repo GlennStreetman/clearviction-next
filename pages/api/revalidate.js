@@ -43,7 +43,6 @@ export default async function handler(req, res) {
   console.log("update request received");
   logger.info("update request received");
   try {
-    
     const secret = process.env.NEXT_REVALIDATE || "false";
     logger.info("secret", secret);
     console.log("secret", secret);
