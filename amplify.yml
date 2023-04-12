@@ -6,8 +6,8 @@ frontend:
         - npm ci
     build:
       commands:
-        - npm run build
         - env | grep -e NEXT_REVALIDATE -e NEXT_PUBLIC_SANITY_PROJECT_ID -e NEXT_PUBLIC_SANITY_DATASET >> .env.production
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:
