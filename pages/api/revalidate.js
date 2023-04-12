@@ -1,4 +1,5 @@
-import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook"; //
+import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
+import { Logger } from 'aws-amplify';
 
 // see the links below for documentation on Sanity.io webhook docs
 // https://github.com/sanity-io/webhook-toolkit
@@ -36,8 +37,11 @@ async function readBody(readable) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
+const logger = new Logger('foo');
+
 export default async function handler(req, res) {
   console.log("update request received");
+  logger.info("update request received");
   try {
     const secret = process.env.NEXT_REVALIDATE || "false";
     const signature = req?.headers?.[SIGNATURE_HEADER_NAME];
@@ -54,8 +58,10 @@ export default async function handler(req, res) {
     const updateURL = updateFunction(jsonBody);
     await res.revalidate(updateURL);
     console.log(" successfully revalidated: ", updateURL);
+    logger.info(" successfully revalidated: ", updateURL);
     return res.json({ revalidated: true });
   } catch (err) {
+    logger.error("revalidate error", err);
     console.log("revalidate error", err);
     // If there was an error, Next.js will continue
     // to show the last successfully generated page
