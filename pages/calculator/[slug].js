@@ -220,7 +220,7 @@ export async function getStaticProps(ctx) {
       page,
       calculatorConfig,
     },
-    // revalidate: 10, // In seconds reboot
+    revalidate: 10, // In seconds reboot
   };
 }
 
